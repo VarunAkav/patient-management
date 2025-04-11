@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Postgres Container",
+        "type": "shell",
+        "command": "docker ps -a --format '{{.Names}}' | grep -q '^patient-service-db$' && docker start patient-service-db || docker run -d --name patient-service-db --network internal -p 5000:5432 -e POSTGRES_USER=admin_user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=db -v /mnt/f/Projects/db_volumes/patient-service-db:/var/lib/postgresql/data postgres:latest",
+        "options": {
+          "shell": {
+            "executable": "wsl"
+          }
+        },
+        "problemMatcher": [],
+        "detail": "Starts existing Postgres container or creates a new one if not present"
+      },
+      {
+        "label": "Build and Run patient-service",
+        "type": "shell",
+        "command": "docker image inspect patient-service:latest > /dev/null 2>&1 || docker build -t patient-service:latest patient-service && (docker ps -a --format '{{.Names}}' | grep -q '^patient-service$' && docker start patient-service || docker run -d --name patient-service --network internal -p 4000:4000 -e SPRING_DATASOURCE_USERNAME=admin_user -e SPRING_DATASOURCE_PASSWORD=password -e SPRING_DATASOURCE_URL=jdbc:postgresql://patient-service-db:5432/db -e SPRING_JPA_HIBERNATE_DDL_AUTO=update -e SPRING_SQL_INIT_MODE=always patient-service:latest)",
+        "options": {
+          "shell": {
+            "executable": "wsl"
+          }
+        },
+        "problemMatcher": [],
+        "detail": "Builds image if missing and starts or runs patient-service container"
+      }
+      
+    ]
+  }
+  
