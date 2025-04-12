@@ -12,15 +12,6 @@ public class BillingGrpcService extends BillingServiceImplBase {
 
     private static final Logger log = LoggerFactory.getLogger(BillingGrpcService.class);
 
-    // Implement the gRPC methods here
-    // For example:
-    // @Override
-    // public void getBillingInfo(GetBillingInfoRequest request, StreamObserver<GetBillingInfoResponse>
-    // responseObserver) {
-    //     // Your implementation here
-    //     responseObserver.onNext(response);
-    //     responseObserver.onCompleted();
-    // }
     @Override
     public void createBillingAccount(billing.BillingRequest billingRequest,
                                      StreamObserver<billing.BillingResponse> responseObserver) {
