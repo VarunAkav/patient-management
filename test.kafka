@@ -1,0 +1,10 @@
+PRODUCER keyed-message
+topic: patient
+key: test
+Hello Kafka!
+
+###
+
+CONSUMER consumer-1
+topic: patient
+from: latest
